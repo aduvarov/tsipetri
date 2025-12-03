@@ -1,22 +1,21 @@
-let salary
-salary = 5000 // any
+const isBirthdayData: boolean = true
+let ageData: number = 40
+const userNameData: string = 'John'
 
-const userData = '{"isBirthdayData": true, "ageData":40, "userNameData": "John"}'
+const createError = (msg: string) => {
+    throw new Error(msg)
+    // while (true) {}
+}
 
-const userObj: {
-    isBirthdayData: boolean
-    userNameData: string
-    ageData: number
-} = JSON.parse(userData)
-
-console.log(userObj.smt())
-
-const logBrtMsg = (isBirthday: boolean, userName: string, age: number): string => {
-    if (isBirthday) {
+function logBrtMsg(isBirthday: boolean, userName: string, age: number): string {
+    if (isBirthday === true) {
         return `Congrats ${userName.toUpperCase()}, age: ${age + 1}`
-    } else {
-        return 'Error'
+    } else if (isBirthday === false) {
+        return 'Too bad'
     }
+    return createError('Error')
 }
 
 console.log(logBrtMsg(isBirthdayData, userNameData, ageData))
+
+// const smth: never = undefined
