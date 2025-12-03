@@ -1,6 +1,6 @@
-const isBirthdayData: boolean = true
-let ageData: number = 40
-const userNameData: string = 'John'
+// const isBirthdayData: boolean = true
+// let ageData: number = 40
+// const userNameData: string = 'John'
 
 // function logBrtMsg(isBirthday: boolean, userName: string, age: number): string {
 //     if (isBirthday) {

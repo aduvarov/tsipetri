@@ -1,12 +1,35 @@
-let id: symbol = Symbol('id')
-
-const data = {
-    [id]: 1,
+const userData = {
+    isBirthdayData: true,
+    ageData: 40,
+    userNameData: 'John',
+    messages: {
+        error: 'Error',
+    },
 }
 
-console.log(data[id])
+const createError = (msg: string) => {
+    throw new Error(msg)
+    // while (true) {}
+}
 
-const num1: bigint = 1n
-const num2: bigint = 2n
+function logBrtMsg({
+    isBirthdayData,
+    userNameData,
+    ageData,
+    messages: { error },
+}: {
+    isBirthdayData: boolean
+    userNameData: string
+    ageData: number
+    messages: { error: string }
+}): string {
+    if (isBirthdayData) {
+        return `Congrats ${userNameData.toUpperCase()}, age: ${ageData + 1}`
+    } else {
+        return createError(error)
+    }
+}
 
-console.log(num1 + num2)
+console.log(logBrtMsg(userData))
+
+// const smth: never = undefined
