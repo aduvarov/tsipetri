@@ -1,55 +1,60 @@
-const userData = {
-    isBirthdayData: true,
-    ageData: 40,
-    userNameData: 'John',
-    messages: {
-        error: 'Error',
+const electricityUserData = {
+    readings: 95,
+    units: 'kWt',
+    mode: 'double',
+}
+
+const waterUserData = {
+    readings: 3,
+    units: 'm3',
+}
+
+const elRate = 0.45
+const wRate = 2
+
+const monthPayments = [0, 0] // [electricity, water]
+
+const calculatePayments = (
+    elData: {
+        readings: number
+        mode: string
     },
-}
-
-const createError = (msg: string) => {
-    throw new Error(msg)
-    // while (true) {}
-}
-
-function logBrtMsg({
-    isBirthdayData,
-    userNameData,
-    ageData,
-    messages: { error },
-}: {
-    isBirthdayData: boolean
-    userNameData: string
-    ageData: number
-    messages: { error: string }
-}): string {
-    if (isBirthdayData) {
-        return `Congrats ${userNameData.toUpperCase()}, age: ${ageData + 1}`
+    wData: {
+        readings: number
+    },
+    elRate: number,
+    wRate: number
+) => {
+    if (elData.mode === 'double' && elData.readings < 50) {
+        monthPayments[0] = elData.readings * elRate * 0.7
     } else {
-        return createError(error)
+        monthPayments[0] = elData.readings * elRate
     }
+
+    monthPayments[1] = wData.readings * wRate
 }
 
-console.log(logBrtMsg(userData))
+calculatePayments(electricityUserData, waterUserData, elRate, wRate)
 
-// const smth: never = undefined
+const sendInvoice = (
+    monthPayments: number[],
+    electricityUserData: {
+        readings: number
+        units: string
+    },
+    waterUserData: {
+        readings: number
+        units: string
+    }
+) => {
+    const text = `    Hello!
+    This month you used ${electricityUserData.readings} ${electricityUserData.units} of electricity
+    It will cost: ${monthPayments[0]}€
+    
+    This month you used ${waterUserData.readings} ${waterUserData.units} of water
+    It will cost: ${monthPayments[1]}€`
 
-const departments: string[] = ['dev', 'design', 'marketing']
-const nums: number[] = [3, 5, 6]
-const nums2: number[][] = [
-    [3, 5, 6],
-    [3, 5, 6],
-]
+    return text
+}
 
-const department = departments[0] // string
-// departments.push(5)
-const report = departments //
-    .filter((d: string) => d !== 'dev') // лучше делать анотации вручную
-    // .map(d => {
-    //     // d string
-    //     return 4
-    // })// d number
-    .map(d => `${d} - done`)
-
-const [first] = report
-console.log(first)
+console.log(sendInvoice(monthPayments, electricityUserData, waterUserData))
