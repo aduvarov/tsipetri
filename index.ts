@@ -15,10 +15,13 @@ function startServer(protocol: 'http' | 'https', port: 3000 | 3001) {
 
 startServer('https', 3001)
 
+type AntimationTimingFunction = 'ease' | 'ease-out' | 'ease-in'
+type AnimationID = string | number
+
 function createAnimation(
-    id: string | number,
+    id: AnimationID,
     animationName: string,
-    timingFunc: 'ease' | 'ease-out' | 'ease-in' = 'ease',
+    timingFunc: AntimationTimingFunction = 'ease',
     duration: number,
     iterCount: 'infinite' | number
 ): void {
