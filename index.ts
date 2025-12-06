@@ -1,52 +1,32 @@
-const message: string | number = 5
-const messages: string[] | number[] = ['a', 'b']
+let msg: 'Hello' = 'Hello'
 
-// function printMsg(msg: string | number | boolean): void {
-//     if (typeof msg === 'string' || typeof msg === 'number') {
-//         console.log(msg.toString())
-//     } else {
-//         console.log(msg.valueOf)
-//     }
+msg = 'Hello'
 
-//     console.log(msg) // union
-// }
+const port3000: number = 3000
+const port3001: number = 3001
 
-function printMsg(msg: string[] | number | boolean): void {
-    if (Array.isArray(msg)) {
-        msg.forEach(m => console.log(m))
-    } else if (typeof msg === 'number') {
-        console.log(msg.toFixed())
+function startServer(protocol: 'http' | 'https', port: 3000 | 3001) {
+    if (port === port3000 || port === port3001) {
+        console.log(`Server started on ${protocol}://server:${port}`)
     } else {
-        console.log(msg)
-    }
-
-    console.log(msg) // union
-}
-
-printMsg(4)
-
-const printReadings = (a: number | string, b: number | boolean) => {
-    if (a === b) {
-        console.log(a)
+        console.error('Invalid port')
     }
 }
 
-const printReadings2 = (a: number[] | string) => {
-    console.log(a.slice(0, 3))
-}
+startServer('https', 3001)
 
-function checkReadings(readings: { system: number } | { user: number }): void {
-    if ('system' in readings) {
-        console.log(readings.system)
-    } else {
-        console.log(readings.user)
+function createAnimation(
+    id: string | number,
+    animationName: string,
+    timingFunc: 'ease' | 'ease-out' | 'ease-in' = 'ease',
+    duration: number,
+    iterCount: 'infinite' | number
+): void {
+    const elem = document.querySelector(`#${id}`) as HTMLElement
+    if (elem) {
+        elem.style.animation = `${animationName} ${timingFunc} ${duration} ${iterCount}`
+        console.log(`${animationName} ${timingFunc} ${duration} ${iterCount}`)
     }
 }
 
-function logValue(x: string | Date) {
-    if (x instanceof Date) {
-        console.log(x.getDate())
-    } else {
-        console.log(x.trim())
-    }
-}
+createAnimation('id', 'fade', 'ease-in', 5, 'infinite')
