@@ -1,19 +1,24 @@
-let salary: number
-salary = 500
-
-interface UserData {
-    isBirthdayData: boolean
-    ageData: number
-    userNameData: string
+interface User {
+    login: string
+    password: string
+    age: number
+    // addr?: string
+    addr: string | undefined
+    parents?: {
+        mother?: string
+        father?: string
+    }
 }
 
-const userData = '{"isBirthdayData": true, "ageData": 40, "userNameData": "John"}'
-const userObj: UserData = JSON.parse(userData)
-console.log(userObj.smt)
+const user: User = {
+    login: 'anatoliy',
+    password: '12345',
+    age: 42,
+    addr: 'street',
+}
 
-let isOkay = true
-let movement: boolean | string = false
+const dbName = '12345'
 
-if (isOkay) {
-    movement = 'moving'
+function sendUserData(obj: User, db?: string): void {
+    console.log(obj.parents?.father?.toLowerCase(), db?.toLowerCase())
 }
