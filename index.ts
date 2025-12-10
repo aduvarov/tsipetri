@@ -1,5 +1,5 @@
 interface User {
-    login: string
+    readonly login: string
     password: string
     age: number
     // addr?: string
@@ -17,12 +17,28 @@ const user: User = {
     addr: 'street',
 }
 
-let dbName: string
-sendUserData(user, 'evereasdf')
+const userFreeze: Readonly<User> = {
+    login: 'anatoliy',
+    password: '12345',
+    age: 42,
+    addr: 'street',
+}
 
-console.log(dbName!)
+// userFreeze.age = 44
+
+// user.login = 'asdf' //error
+
+const dbName = '12345'
 
 function sendUserData(obj: User, db?: string): void {
-    dbName = '12345'
     console.log(obj.parents!.father?.toLowerCase(), db!.toLowerCase())
 }
+
+// const basicPorts: readonly number[] = [3000, 3001, 5555]
+// // basicPorts[0] = 5 // error
+
+// const basicPorts: readonly [number, ...string[]] = [3000, '3001', '5555']
+// // basicPorts[0] = 5 // error
+
+const basicPorts: ReadonlyArray<number> = [3000, 3001, 5555]
+// basicPorts[0] = 5 // error
