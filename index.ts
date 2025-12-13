@@ -1,68 +1,43 @@
-// Перечисление с названием TypesOfMedia, которое включает строчные типы video, audio
-enum TypesOfMedia {
-    VIDEO = 'video',
-    AUDIO = 'audio',
+const fetchData = (url: string, method: 'GET' | 'POST'): void => {
+    console.log(method)
 }
 
-// Перечисление с названием FormatsOfMedia, которое включает строчные видео-форматы: .mp4, .mov, .mkv, .flv, .webM
-enum FormatsOfMedia {
-    MP4 = '.mp4',
-    MOV = '.mov',
-    MKV = '.mkv',
-    FLV = '.flv',
-    WEBM = '.webM',
+const reqOptions = {
+    url: 'https://someurl.com',
+    method: 'GET',
+    // method: 'GET' as 'GET',
 }
 
-// Описание интерфейса, в котором:
-// name - строка
-// type - один из перечисления выше
-// format = один из перечисления выше
-// subtitles - необязательное поле типа строка
-// marks - необязательное поле неизвестного типа
+// const reqOptions = {
+//     url: 'https://someurl.com',
+//     method: 'GET',
+// } as const
 
-interface IMedia {
-    name: string
-    type: TypesOfMedia
-    format: FormatsOfMedia
-    subtitles?: string
-    marks?: unknown
-}
+const method = 'GET'
 
-function playMedia(
-    { name, type, format, subtitles, marks }: IMedia = {
-        name: 'example',
-        type: TypesOfMedia.VIDEO,
-        format: FormatsOfMedia.MP4,
-    }
-): string {
-    let marksLog: string
+fetchData('qqq', 'GET')
+fetchData(reqOptions.url, method)
 
-    if (marks) {
-        if (Array.isArray(marks)) {
-            marksLog = marks.join(' ')
-        } else if (typeof marks === 'string') {
-            marksLog = marks
-        }
-    } else {
-        marksLog = 'Unsupported type of marks'
-    }
-    // Создать функционал, что если marks - это массив, то "сложить" все эелементы в одну строку и поместить в marksLog
-    // Если это строка, то просто поместить её в marksLog
-    // Если что-то другое - то marksLog = "Unsupported type of marks"
-    // Не допускайте any!
+// fetchData(reqOptions.url, reqOptions.method)
+// fetchData(reqOptions.url, <'GET'>reqOptions.method)
+fetchData(reqOptions.url, reqOptions.method as 'GET')
 
-    console.log(`Media ${name}${format} is ${type}
-    Marks: ${marksLog!}
-    Subtitles: ${subtitles ?? 'none'}`)
-    // помните что это за оператор ??
+const box = document.querySelector('.box') as HTMLElement
+// const input = document.querySelector('input') as HTMLInputElement
+const input = <HTMLInputElement>document.querySelector('input')
+// const someNumber: number = +input.value
+const someNumber: number = input.value as any as number
+console.log('someNumber: ', someNumber)
 
-    return 'Media started'
-}
+let a = 'value' as const
 
-playMedia({
-    name: 'WoW',
-    format: FormatsOfMedia.MOV,
-    type: TypesOfMedia.VIDEO,
-    subtitles: 'hmhmhm hmhmhm doh',
-    marks: ['4:30', '5:40'],
-})
+let b = { f: 100 } as const
+let c = [] as const
+
+let value = 'value'
+let arr = ['sd', 'dff']
+let obj = { f: 100 }
+
+// let T0 = value as const
+
+let d = Math.round(Math.random() * 1) ? ('yes' as const) : ('no' as const)
