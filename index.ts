@@ -1,43 +1,35 @@
-const fetchData = (url: string, method: 'GET' | 'POST'): void => {
-    console.log(method)
+let num: Number = new Number(5)
+let num2: number = 5
+let num3: number = Number(5)
+
+// num = num2
+// num2 = num
+
+const num5 = 5
+const strNum: string = num5.toString()
+const str = '5'
+const numStr: number = +str
+
+interface Department {
+    name: string
+    budget: number
 }
 
-const reqOptions = {
-    url: 'https://someurl.com',
-    method: 'GET',
-    // method: 'GET' as 'GET',
+const department = {
+    name: 'web-dev',
+    budget: 50000,
 }
 
-// const reqOptions = {
-//     url: 'https://someurl.com',
-//     method: 'GET',
-// } as const
+interface Project {
+    name: string
+    projectBudget: number
+}
 
-const method = 'GET'
+function transformDepartment(department: Department, amount: number): Project {
+    return {
+        name: department.name,
+        projectBudget: amount,
+    }
+}
 
-fetchData('qqq', 'GET')
-fetchData(reqOptions.url, method)
-
-// fetchData(reqOptions.url, reqOptions.method)
-// fetchData(reqOptions.url, <'GET'>reqOptions.method)
-fetchData(reqOptions.url, reqOptions.method as 'GET')
-
-const box = document.querySelector('.box') as HTMLElement
-// const input = document.querySelector('input') as HTMLInputElement
-const input = <HTMLInputElement>document.querySelector('input')
-// const someNumber: number = +input.value
-const someNumber: number = input.value as any as number
-console.log('someNumber: ', someNumber)
-
-let a = 'value' as const
-
-let b = { f: 100 } as const
-let c = [] as const
-
-let value = 'value'
-let arr = ['sd', 'dff']
-let obj = { f: 100 }
-
-// let T0 = value as const
-
-let d = Math.round(Math.random() * 1) ? ('yes' as const) : ('no' as const)
+const mainProject: Project = transformDepartment(department, 4000)
