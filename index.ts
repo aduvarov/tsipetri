@@ -1,89 +1,17 @@
-// Request
-// {
-//     animal: 'cat' | 'dog' | 'bird',
-//     breed: string,
-//     sterilized?: string
-// }
+const box = document.querySelector('.box') as HTMLElement
+const input = document.querySelector('input')
+const link = document.querySelector('a')
+const p = document.querySelector('.paragraph') as HTMLParagraphElement
+const links = document.querySelectorAll('a')
 
-// Response #1
-
-// {
-//     status: 'available',
-//     data: {
-//         animal: 'cat' | 'dog' | 'bird',
-//         breed: string,
-//         sterilized?: string,
-//         location: string,
-//         age?: number
-//     }
-// }
-
-// Response #2
-
-// {
-//     status: 'not available',
-//     data: {
-//         message: string,
-//         nextUpdateIn: Date
-//     }
-// }
-
-interface IAnimal {
-    animal: 'cat' | 'dog' | 'bird'
-    breed: string
-    sterilized?: string
+if (link) {
+    link.href = 'fdfasdfasdf'
 }
 
-interface ISucessData extends IAnimal {
-    location: string
-    age?: number
-}
+input?.value
 
-interface IFailData {
-    message: string
-    nextUpdateIn: Date
-}
-interface ISuccessResponse {
-    status: 'available'
-    data: ISucessData
-}
+const elem = document.createElement('a')
 
-interface IFailResponse {
-    status: 'not available'
-    data: IFailData
-}
-
-function isAvailable(response: ISuccessResponse | IFailResponse): response is ISuccessResponse {
-    return 'location' in response.data
-}
-
-const r1: ISuccessResponse = {
-    status: 'available',
-    data: {
-        animal: 'cat',
-        breed: 'britan',
-        sterilized: 'yes',
-        location: 'n8',
-        age: 3,
-    },
-}
-
-const r2: IFailResponse = {
-    status: 'not available',
-    data: {
-        message: 'Not found',
-        nextUpdateIn: new Date(),
-    },
-}
-
-function checkAnimalData(animal: ISuccessResponse | IFailResponse) {
-    if (isAvailable(animal)) {
-        // Заменить условие!
-        return animal.data
-    } else {
-        return `${animal.data.message}, you can try in ${animal.data.nextUpdateIn}`
-    }
-}
-
-console.log(checkAnimalData(r1))
-console.log(checkAnimalData(r2))
+link?.addEventListener('click', e => {
+    e.preventDefault()
+})
