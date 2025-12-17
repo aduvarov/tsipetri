@@ -1,30 +1,33 @@
-type voidFunc = () => void
+function processingData<T>(data: T): T {
+    // ...
 
-const retString: voidFunc = () => {
-    // ... some login
-    return 'string'
+    return data
 }
 
-const s = retString()
-console.log('s: ', s)
+const res1 = processingData(1)
+let res2 = processingData('1')
 
-const retNum: voidFunc = () => {
-    // ... some logic
-    return 5
+const num = 100
+
+const res3 = processingData<number>(num)
+let res4 = processingData(num)
+
+interface PrintUK {
+    design: number
 }
 
-const n = retNum()
-console.log('n: ', n)
-
-function f2(): void {
-    return true
+interface PrintES {
+    design: string
 }
 
-const f3 = function (): void {
-    return false
+interface Print<T> {
+    design: T
 }
 
-const names = ['Anna', 'John']
-const newArr = names.slice()
+const somePrint: Print<string> = {
+    design: 'ten',
+}
 
-names.forEach((name, i, arr) => arr.push('Hey!'))
+const someOtherPrint: Print<number> = {
+    design: 10,
+}
