@@ -1,29 +1,30 @@
-class User<T, S> {
-    name: T
-    age: S
+const arr: Array<number> = [1, 2, 3]
+const arr1: number[] = [1, 2, 3]
 
-    constructor(name: T, age: S) {
-        this.name = name
-        this.age = age
-    }
+const roarr: ReadonlyArray<string> = ['ddd']
+//roarr[0] = 'x' // error
 
-    sayMyFullName<T>(surname: T): string {
-        if (typeof surname !== 'string') {
-            return `I have only name: ${this.name}`
-        } else {
-            return `${this.name} ${surname}`
-        }
+interface IState {
+    data: {
+        name: string
     }
+    tag?: string
 }
 
-class AdminUser<T> extends User<string, number> {
-    rules: T
+const state: Partial<IState> = {
+    data: {
+        name: 'John',
+    },
 }
 
-const anatoliy = new User('Anatoliy', 44)
-console.log(anatoliy.sayMyFullName('Uvarov'))
+const strictState: Required<IState> = {
+    data: {
+        name: 'John',
+    },
+    tag: '#hash',
+}
 
-const nameData = 'Alex'
-const ageData = 42
-
-const alex = new User<string, number>(nameData, ageData)
+function action(state: Readonly<IState>) {
+    // state.data = 'abc' // error
+    state.data.name = 'userName' // ok
+}
