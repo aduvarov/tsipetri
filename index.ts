@@ -1,30 +1,21 @@
-const arr: Array<number> = [1, 2, 3]
-const arr1: number[] = [1, 2, 3]
-
-const roarr: ReadonlyArray<string> = ['ddd']
-//roarr[0] = 'x' // error
-
-interface IState {
-    data: {
-        name: string
-    }
-    tag?: string
+interface ICompany {
+    name: string
+    debts: number
 }
 
-const state: Partial<IState> = {
-    data: {
-        name: 'John',
-    },
+type CompanyKeys = keyof ICompany
+const keys: CompanyKeys = 'debts' // 'debts' или 'name'
+
+function printDebts<T, K extends keyof T, S extends keyof T>(company: T, name: K, debts: S) {
+    console.log(`Company ${company[name]}, debts: ${company[debts]}`)
 }
 
-const strictState: Required<IState> = {
-    data: {
-        name: 'John',
-    },
-    tag: '#hash',
+const google: ICompany = {
+    name: 'Google',
+    debts: 500000,
 }
 
-function action(state: Readonly<IState>) {
-    // state.data = 'abc' // error
-    state.data.name = 'userName' // ok
-}
+printDebts(google, 'name', 'debts') // аргументы №2 и №3 строго ограничены свойствами
+
+type GoogleKeys = keyof typeof google
+const keys2: GoogleKeys = 'name'
