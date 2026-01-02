@@ -1,49 +1,66 @@
-import { isClassOrTypeElement } from 'typescript'
-
-interface ICompany {
-    name: string
-    debts: number
-    departments: Department[]
-    management: {
-        owner: string
-    }
+interface IPhone {
+    company: string
+    number: number
 }
 
-interface Department {
-    [key: string]: string
+// IMobilePhone должен наследоваться от IPhone,
+// тип свойства companyPartner зависит от свойства company
+
+interface IMobilePhone extends IPhone {
+    size: string
+    companyPartner: IPhone['company']
+    manufactured: Date
 }
 
-// let debts = 'debts' as 'debts'
-let debts: 'debts' = 'debts'
-type CompanyDebtsType = ICompany[typeof debts]
+// Типизировать объект phones
 
-// type CompanyDebtsType = ICompany['debts']
-type CompanyOwnerType = ICompany['management']['owner']
-type CompanyDepartmentsType = ICompany['departments'][number]
-type CompanyDepartmentsTypes = ICompany['departments']
-
-type Test = ICompany[keyof ICompany]
-
-type CompanyKeys = keyof ICompany
-const keys: CompanyKeys = 'debts' // 'debts' или 'name'
-
-function printDebts<T, K extends keyof T, S extends keyof T>(company: T, name: K, debts: S) {
-    console.log(`Company ${company[name]}, debts: ${company[debts]}`)
-}
-
-const google: ICompany = {
-    name: 'Google',
-    debts: 500000,
-    departments: {
-        sales: 'sales',
-        developer: 'dev',
+const phones: IMobilePhone[] = [
+    {
+        company: 'Nokia',
+        number: 1285637,
+        size: '5.5',
+        companyPartner: 'MobileNokia',
+        manufactured: new Date('2022-09-01'),
     },
-    management: {
-        owner: 'John Doe',
+    {
+        company: 'Samsung',
+        number: 4356637,
+        size: '5.0',
+        companyPartner: 'SamMobile',
+        manufactured: new Date('2021-11-05'),
     },
+    {
+        company: 'Apple',
+        number: 4552833,
+        size: '5.7',
+        companyPartner: 'no data',
+        manufactured: new Date('2022-05-24T12:00:00'),
+    },
+]
+
+interface IPhonesManufacturedAfterDate extends IMobilePhone {
+    initialDate: string
 }
 
-printDebts(google, 'name', 'debts') // аргументы №2 и №3 строго ограничены свойствами
+// Функция должна отфильтровать массив данных и вернуть новый массив
+// с телефонами, выпущенными после даты в третьем аргументе
 
-type GoogleKeys = keyof typeof google
-const keys2: GoogleKeys = 'name'
+function filterPhonesByDate(
+    phones: IMobilePhone[],
+    key: keyof IMobilePhone,
+    initial: string
+): IPhonesManufacturedAfterDate[] {
+    const result_phones = phones
+        .filter(phone => {
+            return phone[key] > new Date(initial)
+        })
+        .map(phone => {
+            return { initialDate: initial, ...phone }
+        })
+    return result_phones
+}
+
+// Второй аргумент при вызове функции должен быть связан с первым,
+// а значит мы получим подсказки - свойства этого объекта
+
+console.log(filterPhonesByDate(phones, 'manufactured', '2022-01-01'))
