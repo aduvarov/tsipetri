@@ -1,66 +1,54 @@
-interface IPhone {
-    company: string
-    number: number
+type Example = 'string' extends 'Hello' ? string : number
+
+type FromUserOrFromBase<T extends string | number> = T extends string
+    ? IDataFromUser
+    : IDataFromBase
+
+// const test: FromUserOrFromBase<number> =
+
+interface User<T extends 'created' | Date> {
+    created: T extends 'created' ? 'created' : Date
 }
 
-// IMobilePhone должен наследоваться от IPhone,
-// тип свойства companyPartner зависит от свойства company
-
-interface IMobilePhone extends IPhone {
-    size: string
-    companyPartner: IPhone['company']
-    manufactured: Date
+const user: User<'created'> = {
+    created: 'created',
 }
 
-// Типизировать объект phones
-
-const phones: IMobilePhone[] = [
-    {
-        company: 'Nokia',
-        number: 1285637,
-        size: '5.5',
-        companyPartner: 'MobileNokia',
-        manufactured: new Date('2022-09-01'),
-    },
-    {
-        company: 'Samsung',
-        number: 4356637,
-        size: '5.0',
-        companyPartner: 'SamMobile',
-        manufactured: new Date('2021-11-05'),
-    },
-    {
-        company: 'Apple',
-        number: 4552833,
-        size: '5.7',
-        companyPartner: 'no data',
-        manufactured: new Date('2022-05-24T12:00:00'),
-    },
-]
-
-interface IPhonesManufacturedAfterDate extends IMobilePhone {
-    initialDate: string
+interface IDataFromUser {
+    weight: string
 }
 
-// Функция должна отфильтровать массив данных и вернуть новый массив
-// с телефонами, выпущенными после даты в третьем аргументе
-
-function filterPhonesByDate(
-    phones: IMobilePhone[],
-    key: keyof IMobilePhone,
-    initial: string
-): IPhonesManufacturedAfterDate[] {
-    const result_phones = phones
-        .filter(phone => {
-            return phone[key] > new Date(initial)
-        })
-        .map(phone => {
-            return { initialDate: initial, ...phone }
-        })
-    return result_phones
+interface IDataFromBase {
+    calories: number
 }
 
-// Второй аргумент при вызове функции должен быть связан с первым,
-// а значит мы получим подсказки - свойства этого объекта
+// function calculateDailyCalories(str: string): IDataFromUser
+// function calculateDailyCalories(num: number): IDataFromBase
+function calculateDailyCalories<T extends string | number>(
+    numOrStr: T
+): T extends string ? IDataFromUser : IDataFromBase {
+    if (typeof numOrStr === 'string') {
+        const obj: IDataFromUser = {
+            weight: numOrStr,
+        }
+        return obj as FromUserOrFromBase<T>
+    } else {
+        const obj: IDataFromBase = {
+            calories: numOrStr,
+        }
+        return obj as FromUserOrFromBase<T>
+    }
+}
 
-console.log(filterPhonesByDate(phones, 'manufactured', '2022-01-01'))
+type GetStringType<T extends 'hello' | 'world' | string> = T extends 'hello'
+    ? 'hello'
+    : T extends 'world'
+    ? 'world'
+    : string
+
+type GetFirstType<T> = T extends Array<infer First> ? First : T
+type Ex = GetFirstType<string[]>
+
+type ToArray<Type> = Type extends any ? Type[] : never
+
+type ExArray = ToArray<Ex | number>
