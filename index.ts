@@ -6,30 +6,12 @@ type Currencies = {
 }
 
 type CreateCustomCurr<T> = {
-    -readonly [P in keyof T]-?: string
+    -readonly [P in keyof T as `custom${Capitalize<string & P>}`]-?: string
 }
 
 type CustomCurrencies = CreateCustomCurr<Currencies>
 
-// type CustomCurrencies = {
-//     usa: string
-//     china: string
-//     ukraine: string
-//     kz: string
-// }
+type MyAnimation = 'fade' | 'swipe'
+type Direction = 'in' | 'out'
 
-// type СопоставимыйТип = {
-//     [ПроизвольныйИдентификатор in Множество]: ПроизвольныйТипДанных
-// }
-
-type Keys = 'name' | 'age' | 'role'
-
-type User = {
-    [K in Keys]: string
-}
-
-const alex: User = {
-    name: 'Alex',
-    age: '25',
-    role: 'admin',
-}
+type MyNewAnimation = `${MyAnimation}${Capitalize<Direction>}`
