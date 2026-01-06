@@ -1,54 +1,35 @@
-type Example = 'string' extends 'Hello' ? string : number
-
-type FromUserOrFromBase<T extends string | number> = T extends string
-    ? IDataFromUser
-    : IDataFromBase
-
-// const test: FromUserOrFromBase<number> =
-
-interface User<T extends 'created' | Date> {
-    created: T extends 'created' ? 'created' : Date
+type Currencies = {
+    usa: 'usd'
+    china?: 'cny'
+    ukraine: 'uah'
+    readonly kz: 'tenge'
 }
 
-const user: User<'created'> = {
-    created: 'created',
+type CreateCustomCurr<T> = {
+    -readonly [P in keyof T]-?: string
 }
 
-interface IDataFromUser {
-    weight: string
+type CustomCurrencies = CreateCustomCurr<Currencies>
+
+// type CustomCurrencies = {
+//     usa: string
+//     china: string
+//     ukraine: string
+//     kz: string
+// }
+
+// type СопоставимыйТип = {
+//     [ПроизвольныйИдентификатор in Множество]: ПроизвольныйТипДанных
+// }
+
+type Keys = 'name' | 'age' | 'role'
+
+type User = {
+    [K in Keys]: string
 }
 
-interface IDataFromBase {
-    calories: number
+const alex: User = {
+    name: 'Alex',
+    age: '25',
+    role: 'admin',
 }
-
-// function calculateDailyCalories(str: string): IDataFromUser
-// function calculateDailyCalories(num: number): IDataFromBase
-function calculateDailyCalories<T extends string | number>(
-    numOrStr: T
-): T extends string ? IDataFromUser : IDataFromBase {
-    if (typeof numOrStr === 'string') {
-        const obj: IDataFromUser = {
-            weight: numOrStr,
-        }
-        return obj as FromUserOrFromBase<T>
-    } else {
-        const obj: IDataFromBase = {
-            calories: numOrStr,
-        }
-        return obj as FromUserOrFromBase<T>
-    }
-}
-
-type GetStringType<T extends 'hello' | 'world' | string> = T extends 'hello'
-    ? 'hello'
-    : T extends 'world'
-    ? 'world'
-    : string
-
-type GetFirstType<T> = T extends Array<infer First> ? First : T
-type Ex = GetFirstType<string[]>
-
-type ToArray<Type> = Type extends any ? Type[] : never
-
-type ExArray = ToArray<Ex | number>
