@@ -1,48 +1,22 @@
-import { blob } from 'stream/consumers'
+type FromPromise = Awaited<Promise<number>>
 
-const jsonTest = '{ "name": "Test", "data": 4 }'
-
-interface JSONTest {
+interface User {
     name: string
-    data: number
 }
 
-const objFromJson: JSONTest = JSON.parse(jsonTest)
+async function fetchUsers(): Promise<User[]> {
+    const users: User[] = [
+        {
+            name: 'Alex',
+        },
+    ]
 
-let toDoList: ToDo[] = []
-interface ToDo {
-    userId: number
-    id: number
-    title: string
-    completed: boolean
+    return users
 }
 
-// fetch('https://jsonplaceholder.typicode.com/todos/1')
-//     .then(response => response.json())
-//     .then(json => {
-//         if ('id' in json) {
-//             toDoList.push(json)
-//         }
-//         console.log(toDoList)
-//     })
+const users = fetchUsers()
 
-fetch('https://jsonplaceholder.typicode.com/todos')
-    .then(response => response.json())
-    .then(json => {
-        if ('id' in json) {
-            toDoList.push(json)
-        } else if (Array.isArray(json)) {
-            toDoList = json
-        } else {
-            console.log(`${json} is a string`)
-        }
-        console.log(toDoList)
-    })
+type FetchUsersReturnType = Awaited<ReturnType<typeof fetchUsers>>
 
-const promise = new Promise<string>((resolve, reject) => {
-    resolve('Test')
-})
-
-promise.then(value => {
-    console.log(value)
-})
+type UnwrappedPromise<T> = T extends Promise<infer Return> ? Return : T
+type FetchDataReturnType = UnwrappedPromise<ReturnType<typeof fetchUsers>>
