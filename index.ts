@@ -29,29 +29,46 @@ class Box {
         }
     }
 
-    get content() {
-        return this._content
-    }
+    // get content() {
+    //     return this._content
+    // }
 
-    set content(value) {
-        this._content = `Date: ${new Date().toTimeString()}, Content: ${value}`
+    // set content(value) {
+    //     this._content = `Date: ${new Date().toTimeString()}, Content: ${value}`
+    // }
+
+    async content(value: string) {
+        const date = await new Date().toTimeString()
+        this._content = `Date: ${date}, Content: ${value}`
+        console.log(this._content)
+        // return this._content
     }
 }
 
 const firstBox = new Box(250)
 firstBox.volume = 50000
-console.log((firstBox.content = 'Test'))
-console.log(firstBox.content)
 
-class Styles {
-    [s: string]: string | ((s: string) => boolean)
+class PresentBox extends Box {
+    wrap: string
+    height: number = 600
 
-    method(str) {
-        return true
+    constructor(wrap: string, width: number) {
+        super(width)
+        this.wrap = wrap
+    }
+
+    override async content(value: string, text?: string) {
+        const date = await new Date().toTimeString()
+
+        if (!text) {
+            super.content(value)
+        } else {
+            this._content = `Date: ${date}, Content: ${value}, Text: ${text ? text : 'No text'}`
+        }
+
+        console.log(this._content)
+        // return this._content
     }
 }
 
-const style = new Styles()
-
-style.color = 'red'
-style.font = 'Roboto'
+new PresentBox('red', 500).content('TV', 'Gift')
