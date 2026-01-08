@@ -1,6 +1,6 @@
 class Box {
     width: number
-    height: number
+    height: number = 500
     volume: number | undefined
     _content: string | undefined
 
@@ -8,7 +8,6 @@ class Box {
         this.width = width
         this.volume = volume
         this._content = content
-        this.height = 500
     }
 
     calculateVolume(): void {
@@ -44,10 +43,15 @@ firstBox.volume = 50000
 console.log((firstBox.content = 'Test'))
 console.log(firstBox.content)
 
-// class User {
-//     name: string
-// }
+class Styles {
+    [s: string]: string | ((s: string) => boolean)
 
-// const ivan = new User()
-// ivan.name = 'Ivan'
-// console.log(ivan)
+    method(str) {
+        return true
+    }
+}
+
+const style = new Styles()
+
+style.color = 'red'
+style.font = 'Roboto'
