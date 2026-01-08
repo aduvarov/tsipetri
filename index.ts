@@ -1,22 +1,21 @@
-type FromPromise = Awaited<Promise<number>>
+class Box {
+    width: number
+    height: number
 
-interface User {
+    constructor(width: number) {
+        this.width = width
+        this.height = 500
+    }
+}
+
+const firstBox = new Box(250)
+
+console.log(firstBox)
+
+class User {
     name: string
 }
 
-async function fetchUsers(): Promise<User[]> {
-    const users: User[] = [
-        {
-            name: 'Alex',
-        },
-    ]
-
-    return users
-}
-
-const users = fetchUsers()
-
-type FetchUsersReturnType = Awaited<ReturnType<typeof fetchUsers>>
-
-type UnwrappedPromise<T> = T extends Promise<infer Return> ? Return : T
-type FetchDataReturnType = UnwrappedPromise<ReturnType<typeof fetchUsers>>
+const ivan = new User()
+ivan.name = 'Ivan'
+console.log(ivan)
