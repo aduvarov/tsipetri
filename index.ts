@@ -1,32 +1,53 @@
 class Box {
     width: number
     height: number
-    volume: string
+    volume: number | undefined
+    _content: string | undefined
 
-    constructor(volume: string)
-    constructor(width: number)
-    constructor(widthOrVolume: number | string) {
-        if (typeof widthOrVolume === 'number') {
-            this.width = widthOrVolume
-        } else {
-            this.volume = widthOrVolume
-        }
+    constructor(width: number, volume?: number, content?: string) {
+        this.width = width
+        this.volume = volume
+        this._content = content
         this.height = 500
     }
-    // constructor(width: number) {
-    //     this.width = widthOrVolume
-    //     this.height = 500
-    // }
+
+    calculateVolume(): void {
+        if (!this.volume) {
+            this.volume = this.width * this.height
+            console.log(`Объём посылки: ${this.volume}`)
+        } else {
+            console.log(`Объём посылки: ${this.volume}`)
+        }
+    }
+
+    checkBoxSize(transport: number): string
+    checkBoxSize(transport: number[]): string
+    checkBoxSize(transport: number | number[]): string {
+        if (typeof transport === 'number') {
+            return transport >= this.width ? 'Ok' : 'Not ok'
+        } else {
+            return transport.some(t => t >= this.width) ? 'Ok' : 'Not ok'
+        }
+    }
+
+    get content() {
+        return this._content
+    }
+
+    set content(value) {
+        this._content = `Date: ${new Date().toTimeString()}, Content: ${value}`
+    }
 }
 
 const firstBox = new Box(250)
+firstBox.volume = 50000
+console.log((firstBox.content = 'Test'))
+console.log(firstBox.content)
 
-console.log(firstBox)
+// class User {
+//     name: string
+// }
 
-class User {
-    name: string
-}
-
-const ivan = new User()
-ivan.name = 'Ivan'
-console.log(ivan)
+// const ivan = new User()
+// ivan.name = 'Ivan'
+// console.log(ivan)
