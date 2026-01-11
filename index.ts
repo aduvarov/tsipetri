@@ -1,77 +1,22 @@
-function setName() {
-    console.log('start setName')
-    return 'COD'
+interface IEngine {
+    model: string
+    capacity: number
+    startEngine: (time: Date) => string
 }
-class Player {
-    private static game: string
 
-    #login: string
-    private _password: string
-    public server: string
-    protected consent: boolean
-
-    constructor(login: string) {
-        this.#login = login
-    }
-
-    static {
-        Player.game = setName()
-    }
-
-    // constructor(game: string) {
-    //     Player.game = game
-    // }
-
-    get password() {
-        return this._password
-    }
-
-    set password(newPass: string) {
-        // Validation
-        this._password = newPass
-    }
-
-    static getGameName() {
-        return Player.game
-    }
-
-    logIn = () => {
-        return `Player ${this.#login} online`
-    }
-
-    connect() {
-        // smth
-        return this
-    }
-
-    isPro(): this is CompetitivePlayer {
-        return this instanceof CompetitivePlayer
+abstract class AbstractVehicle {
+    model: string
+    capacity: number
+    abstract startEngine: (time: Date) => string
+    stopEngine(time: Date): string {
+        return 'Engine Stopped'
     }
 }
 
-const player = new Player('Ivan')
-// console.log(player.logIn())
-console.log(player.connect().logIn())
-
-// const test = player.logIn.bind(player)
-const test = player.logIn
-test()
-
-class CompetitivePlayer extends Player {
-    rank: number
-
-    checkLogin() {
-        return this.logIn()
-    }
-
-    private isConsented() {
-        return this.consent ? 'Yes' : 'No'
+class Vehicle extends AbstractVehicle {
+    startEngine = (time: Date) => {
+        return 'Started'
     }
 }
 
-const player2 = new CompetitivePlayer('Vasya')
-console.log(player2.checkLogin())
-
-const somePlyaer: Player | CompetitivePlayer = new CompetitivePlayer('Misha')
-
-somePlyaer.isPro() ? console.log(somePlyaer) : console.log(somePlyaer)
+console.log(new Vehicle().startEngine(new Date()))
