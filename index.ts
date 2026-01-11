@@ -1,8 +1,22 @@
+function setName() {
+    console.log('start setName')
+    return 'COD'
+}
 class Player {
-    private login: string
+    private static game: string
+
+    #login: string
     private _password: string
     public server: string
     protected consent: boolean
+
+    static {
+        Player.game = setName()
+    }
+
+    // constructor(game: string) {
+    //     Player.game = game
+    // }
 
     get password() {
         return this._password
@@ -12,19 +26,29 @@ class Player {
         // Validation
         this._password = newPass
     }
-}
 
-class CompetitivePlayer extends Player {
-    rank: number
-
-    isConsented() {
-        return this.consent ? 'Yes' : 'No'
+    static getGameName() {
+        return Player.game
     }
 }
 
-// const player = new Player()
-const player = new CompetitivePlayer()
-player.password = '1qaz'
+new Player()
+new Player()
+new Player()
+console.log(Player.getGameName())
+
+// Math.random()
+
+// class CompetitivePlayer extends Player {
+//     rank: number
+
+//     isConsented() {
+//         return this.consent ? 'Yes' : 'No'
+//     }
+// }
+
+// const player = new CompetitivePlayer()
+// player._password = '1qaz'
 // player.login = 'abcd'
 
 // class User {
